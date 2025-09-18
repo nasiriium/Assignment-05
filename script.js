@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let hearts = 0;
     let copies = 0;
 
-    // Hotline data
+    // Data for the cards with English categories
     const hotlineData = [
-        { name: 'পুলিশ', englishName: 'Police', number: '999', category: 'police'},
-        { name: 'ফায়ার সার্ভিস', englishName: 'Fire Service', number: '999', category: 'fire'},
-        { name: 'অ্যাম্বুলেন্স', englishName: 'Ambulance', number: '999', category: 'health'},
-        { name: 'নারী ও শিশু সহায়তা', englishName: 'Women & Child Helpline', number: '109', category: 'health'},
-        { name: 'দুদক', englishName: 'Anti-Corruption', number: '106', category: 'other'},
-        { name: 'বাংলাদেশ রেলওয়ে', englishName: 'Bangladesh Railway', number: '163', category: 'other'},
-        { name: 'বিদ্যুৎ বিভ্রাট', englishName: 'Electricity Outage', number: '16216', category: 'other'},
-        { name: 'ব্র্যাক', englishName: 'Brac', number: '16445', category: 'other'}
+        { name: 'পুলিশ', englishName: 'Police', number: '999', category: 'General' },
+        { name: 'ফায়ার সার্ভিস', englishName: 'Fire Service', number: '999', category: 'Fire' },
+        { name: 'অ্যাম্বুলেন্স', englishName: 'Ambulance', number: '999', category: 'Health' },
+        { name: 'নারী ও শিশু সহায়তা', englishName: 'Women & Child Helpline', number: '109', category: 'Support' },
+        { name: 'দুদক', englishName: 'Anti-Corruption', number: '106', category: 'Government' },
+        { name: 'বাংলাদেশ রেলওয়ে', englishName: 'Bangladesh Railway', number: '163', category: 'Transport' },
+        { name: 'বিদ্যুৎ বিভ্রাট', englishName: 'Electricity Outage', number: '16216', category: 'Electricity' },
+        { name: 'ব্র্যাক', englishName: 'Brac', number: '16445', category: 'NGO' }
     ];
 
     // Function to render cards
@@ -31,13 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let categoryClass;
             switch(service.category) {
-                case 'police':
+                case 'General':
                     categoryClass = 'badge-primary';
                     break;
-                case 'fire':
+                case 'Fire':
                     categoryClass = 'badge-error';
                     break;
-                case 'health':
+                case 'Health':
                     categoryClass = 'badge-success';
                     break;
                 default:
@@ -46,17 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             card.innerHTML = `
-                <div class="flex justify-between items-start mb-2">
-                    <span class="material-icons text-grey-500 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
-    
+                <div class="flex justify-end items-start mb-2">
+                    <span class="material-icons text-red-500 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <img src="" alt="${service.name} Icon" class="h-16 w-16 mb-2">
+                    <img src="https://via.placeholder.com/60" alt="${service.name} Icon" class="h-16 w-16 mb-2">
                     <h3 class="text-xl font-semibold text-gray-800">${service.name}</h3>
                     <p class="text-gray-500 mb-2">${service.englishName}</p>
-                    <p class="text-2xl font-bold text-gray-700 mb-4">${service.number}</p>
+                    <p class="text-2xl font-bold text-gray-700 mb-2">${service.number}</p>
+                    <div class="badge ${categoryClass} mb-4">${service.category}</div>
                     <div class="flex space-x-2">
-                        <button class="btn btn-sm btn-info text-white flex items-center copy-btn" data-hotline="${service.number}" data-service-name="${service.name}">
+                        <button class="btn btn-sm text-white flex items-center" style="background-color: #6b7280;">
                             <span class="material-icons text-sm">content_copy</span> Copy
                         </button>
                         <button class="btn btn-sm btn-success text-white flex items-center call-btn" data-hotline="${service.number}" data-service-name="${service.englishName}">
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add a service to history 
+    // Function to add a service to history with a timestamp
     function addHistoryItem(name, number) {
         const now = new Date();
         const timeString = now.toLocaleTimeString();
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hotlineCardsContainer.addEventListener('click', (event) => {
         const target = event.target;
 
-        //Heart Icon Click
+        // Handle Heart Icon Click
         if (target.classList.contains('heart-icon')) {
             const isFavorited = target.dataset.favorited === 'true';
             if (isFavorited) {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heartCountEl.textContent = hearts;
         }
 
-        // Call Button Click
+        // Handle Call Button Click
         if (target.closest('.call-btn')) {
             const callBtn = target.closest('.call-btn');
             const serviceName = callBtn.dataset.serviceName;
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addHistoryItem(serviceName, hotline);
         }
 
-        // Copy Button Click
+        // Handle Copy Button Click
         if (target.closest('.copy-btn')) {
             const copyBtn = target.closest('.copy-btn');
             const hotline = copyBtn.dataset.hotline;
@@ -136,12 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Clear History Button
+    // Handle Clear History Button
     clearHistoryBtn.addEventListener('click', () => {
         historyList.innerHTML = '';
         alert("Call history cleared.");
     });
 
-    // Display of cards
+    // Initial render of cards
     renderCards();
 });
