@@ -10,18 +10,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let hearts = 0;
     let copies = 0;
 
-    // Data for the cards with English categories
+    // Data for the cards with both Bangla and English names
     const hotlineData = [
-        { name: 'National Emergency', number: '999', category: 'Fire' },
-        { name: 'Police', number: '999', category: 'General' },
-        { name: 'Fire Service', number: '999', category: 'Fire' },
-        { name: 'Ambulance', number: '999', category: 'Health' },
-        { name: 'Women & Child Helpline', number: '109', category: 'Support' },
-        { name: 'Anti-Corruption', number: '106', category: 'Government' },
-        { name: 'Electricity Outage', number: '16216', category: 'Electricity' },
-        { name: 'Brac', number: '16445', category: 'NGO' },
-        { name: 'Bangladesh Railway', number: '163', category: 'Transport' }
+        { name: 'National Emergency', englishName: 'National Emergency', number: '999', category: 'General' },
+        { name: 'Police', englishName: 'Police', number: '999', category: 'General' },
+        { name: 'Fire Service', englishName: 'Fire Service', number: '999', category: 'Fire' },
+        { name: 'Ambulance', englishName: 'Ambulance', number: '999', category: 'Health' },
+        { name: 'Women & Child Helpline', englishName: 'Women & Child Helpline', number: '109', category: 'Support' },
+        { name: 'Anti-Corruption', englishName: 'Anti-Corruption', number: '106', category: 'Government' },
+        { name: 'Bangladesh Railway', englishName: 'Bangladesh Railway', number: '163', category: 'Transport' },
+        { name: 'Electricity Outage', englishName: 'Electricity Outage', number: '16216', category: 'Electricity' },
+        { name: 'Brac', englishName: 'Brac', number: '16445', category: 'NGO' }
     ];
+
+    // Function to get the correct icon path based on the service name
+    function getIconPath(serviceName) {
+        switch (serviceName) {
+            case 'Police':
+                return './assets/police.png';
+            case 'Fire Service':
+                return './assets/fire-service.png';
+            case 'Ambulance':
+                return './assets/ambulance.png';
+            case 'National Emergency':
+                return './assets/emergency.png';
+            case 'Bangladesh Railway':
+                return './assets/Bangladesh-Railway.png';
+            case 'Brac':
+                return './assets/brac.png';
+            default:
+                // Use a general emergency icon for other services
+                return './assets/emergency.png';
+        }
+    }
 
     // Function to render cards
     function renderCards() {
@@ -46,21 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
             }
 
+            const iconPath = getIconPath(service.englishName);
+
             card.innerHTML = `
                 <div class="flex justify-end items-start mb-2">
                     <span class="material-icons text-gray-300 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <img src="./assets/emergency.png" alt="${service.name} Icon" class="h-16 w-16 mb-2">
+                    <img src="${iconPath}" alt="${service.name} Icon" class="h-16 w-16 mb-2">
                     <h3 class="text-xl font-semibold text-gray-800">${service.name}</h3>
-                    <p class="text-gray-600 mb-2">${service.name}</p>
+                    <p class="text-gray-600 mb-2">${service.englishName}</p>
                     <p class="text-2xl font-bold text-gray-800 mb-2">${service.number}</p>
                     <div class="badge ${categoryClass} mb-4">${service.category}</div>
                     <div class="flex space-x-2">
-                        <button class="btn btn-sm text-white flex items-center" style="background-color: #6b7280;">
+                        <button class="btn btn-sm text-gray-700 flex items-center copy-btn" style="background-color: #F2F2F2;">
                             <span class="material-icons text-sm">content_copy</span> Copy
                         </button>
-                        <button class="btn btn-sm btn-success text-white flex items-center call-btn" data-hotline="${service.number}" data-service-name="${service.name}">
+                        <button class="btn btn-sm btn-success text-white flex items-center call-btn" data-hotline="${service.number}" data-service-name="${service.englishName}">
                             <span class="material-icons text-sm">call</span> Call
                         </button>
                     </div>
@@ -82,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="font-semibold text-gray-800">${name}</span>
                 <span class="text-gray-800 ml-2">${number}</span>
             </div>
-            <span class="text-sm text-gray-300">${timeString}</span>
+            <span class="text-sm text-gray-400">${timeString}</span>
         `;
         historyList.prepend(historyItem);
     }
