@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let hearts = 0;
     let copies = 0;
 
-    // Data for the cards based on the provided PDF
+    // Hotline data
     const hotlineData = [
-        { name: 'পুলিশ', englishName: 'Police', number: '999', category: 'সার্বজনীন' },
-        { name: 'ফায়ার সার্ভিস', englishName: 'Fire Service', number: '999', category: 'ফায়ার' },
-        { name: 'অ্যাম্বুলেন্স', englishName: 'Ambulance', number: '999', category: 'স্বাস্থ্য' },
-        { name: 'নারী ও শিশু সহায়তা', englishName: 'Women & Child Helpline', number: '109', category: 'সহায়তা' },
-        { name: 'দুদক', englishName: 'Anti-Corruption', number: '106', category: 'সরকারি' },
-        { name: 'বাংলাদেশ রেলওয়ে', englishName: 'Bangladesh Railway', number: '163', category: 'পরিবহন' },
-        { name: 'বিদ্যুৎ বিভ্রাট', englishName: 'Electricity Outage', number: '16216', category: 'বিদ্যুৎ' },
-        { name: 'ব্র্যাক', englishName: 'Brac', number: '16445', category: 'এনজিও' }
+        { name: 'পুলিশ', englishName: 'Police', number: '999', category: 'police'},
+        { name: 'ফায়ার সার্ভিস', englishName: 'Fire Service', number: '999', category: 'fire'},
+        { name: 'অ্যাম্বুলেন্স', englishName: 'Ambulance', number: '999', category: 'health'},
+        { name: 'নারী ও শিশু সহায়তা', englishName: 'Women & Child Helpline', number: '109', category: 'health'},
+        { name: 'দুদক', englishName: 'Anti-Corruption', number: '106', category: 'other'},
+        { name: 'বাংলাদেশ রেলওয়ে', englishName: 'Bangladesh Railway', number: '163', category: 'other'},
+        { name: 'বিদ্যুৎ বিভ্রাট', englishName: 'Electricity Outage', number: '16216', category: 'other'},
+        { name: 'ব্র্যাক', englishName: 'Brac', number: '16445', category: 'other'}
     ];
 
     // Function to render cards
@@ -31,13 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let categoryClass;
             switch(service.category) {
-                case 'সার্বজনীন':
+                case 'police':
                     categoryClass = 'badge-primary';
                     break;
-                case 'ফায়ার':
+                case 'fire':
                     categoryClass = 'badge-error';
                     break;
-                case 'স্বাস্থ্য':
+                case 'health':
                     categoryClass = 'badge-success';
                     break;
                 default:
@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-2">
-                    <span class="material-icons text-red-500 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
-                    <div class="badge ${categoryClass}">${service.category}</div>
+                    <span class="material-icons text-grey-500 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
+    
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <img src="https://via.placeholder.com/60" alt="${service.name} Icon" class="h-16 w-16 mb-2">
+                    <img src="" alt="${service.name} Icon" class="h-16 w-16 mb-2">
                     <h3 class="text-xl font-semibold text-gray-800">${service.name}</h3>
                     <p class="text-gray-500 mb-2">${service.englishName}</p>
                     <p class="text-2xl font-bold text-gray-700 mb-4">${service.number}</p>
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to add a service to history with a timestamp
+    // Add a service to history 
     function addHistoryItem(name, number) {
         const now = new Date();
         const timeString = now.toLocaleTimeString();
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hotlineCardsContainer.addEventListener('click', (event) => {
         const target = event.target;
 
-        // Handle Heart Icon Click
+        //Heart Icon Click
         if (target.classList.contains('heart-icon')) {
             const isFavorited = target.dataset.favorited === 'true';
             if (isFavorited) {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heartCountEl.textContent = hearts;
         }
 
-        // Handle Call Button Click
+        // Call Button Click
         if (target.closest('.call-btn')) {
             const callBtn = target.closest('.call-btn');
             const serviceName = callBtn.dataset.serviceName;
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addHistoryItem(serviceName, hotline);
         }
 
-        // Handle Copy Button Click
+        // Copy Button Click
         if (target.closest('.copy-btn')) {
             const copyBtn = target.closest('.copy-btn');
             const hotline = copyBtn.dataset.hotline;
@@ -136,12 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle Clear History Button
+    // Clear History Button
     clearHistoryBtn.addEventListener('click', () => {
         historyList.innerHTML = '';
         alert("Call history cleared.");
     });
 
-    // Initial render of cards
+    // Display of cards
     renderCards();
 });
