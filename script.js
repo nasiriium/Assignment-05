@@ -12,14 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Data for the cards with English categories
     const hotlineData = [
-        { name: 'পুলিশ', englishName: 'Police', number: '999', category: 'General' },
-        { name: 'ফায়ার সার্ভিস', englishName: 'Fire Service', number: '999', category: 'Fire' },
-        { name: 'অ্যাম্বুলেন্স', englishName: 'Ambulance', number: '999', category: 'Health' },
-        { name: 'নারী ও শিশু সহায়তা', englishName: 'Women & Child Helpline', number: '109', category: 'Support' },
-        { name: 'দুদক', englishName: 'Anti-Corruption', number: '106', category: 'Government' },
-        { name: 'বাংলাদেশ রেলওয়ে', englishName: 'Bangladesh Railway', number: '163', category: 'Transport' },
-        { name: 'বিদ্যুৎ বিভ্রাট', englishName: 'Electricity Outage', number: '16216', category: 'Electricity' },
-        { name: 'ব্র্যাক', englishName: 'Brac', number: '16445', category: 'NGO' }
+        { name: 'National Emergency', number: '999', category: 'Fire' },
+        { name: 'Police', number: '999', category: 'General' },
+        { name: 'Fire Service', number: '999', category: 'Fire' },
+        { name: 'Ambulance', number: '999', category: 'Health' },
+        { name: 'Women & Child Helpline', number: '109', category: 'Support' },
+        { name: 'Anti-Corruption', number: '106', category: 'Government' },
+        { name: 'Electricity Outage', number: '16216', category: 'Electricity' },
+        { name: 'Brac', number: '16445', category: 'NGO' },
+        { name: 'Bangladesh Railway', number: '163', category: 'Transport' }
     ];
 
     // Function to render cards
@@ -47,19 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="flex justify-end items-start mb-2">
-                    <span class="material-icons text-red-500 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
+                    <span class="material-icons text-gray-300 text-3xl cursor-pointer heart-icon" data-service-name="${service.name}" data-favorited="false">favorite_border</span>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <img src="https://via.placeholder.com/60" alt="${service.name} Icon" class="h-16 w-16 mb-2">
+                    <img src="./assets/emergency.png" alt="${service.name} Icon" class="h-16 w-16 mb-2">
                     <h3 class="text-xl font-semibold text-gray-800">${service.name}</h3>
-                    <p class="text-gray-500 mb-2">${service.englishName}</p>
-                    <p class="text-2xl font-bold text-gray-700 mb-2">${service.number}</p>
+                    <p class="text-gray-600 mb-2">${service.name}</p>
+                    <p class="text-2xl font-bold text-gray-800 mb-2">${service.number}</p>
                     <div class="badge ${categoryClass} mb-4">${service.category}</div>
                     <div class="flex space-x-2">
                         <button class="btn btn-sm text-white flex items-center" style="background-color: #6b7280;">
                             <span class="material-icons text-sm">content_copy</span> Copy
                         </button>
-                        <button class="btn btn-sm btn-success text-white flex items-center call-btn" data-hotline="${service.number}" data-service-name="${service.englishName}">
+                        <button class="btn btn-sm btn-success text-white flex items-center call-btn" data-hotline="${service.number}" data-service-name="${service.name}">
                             <span class="material-icons text-sm">call</span> Call
                         </button>
                     </div>
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to add a service to history with a timestamp
+    // Function to add a service to history 
     function addHistoryItem(name, number) {
         const now = new Date();
         const timeString = now.toLocaleTimeString();
@@ -79,9 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         historyItem.innerHTML = `
             <div>
                 <span class="font-semibold text-gray-800">${name}</span>
-                <span class="text-gray-500 ml-2">${number}</span>
+                <span class="text-gray-800 ml-2">${number}</span>
             </div>
-            <span class="text-sm text-gray-400">${timeString}</span>
+            <span class="text-sm text-gray-300">${timeString}</span>
         `;
         historyList.prepend(historyItem);
     }
